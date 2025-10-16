@@ -4,151 +4,332 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista e Librave</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
+
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
         img.cover {
             width: 60px;
             height: 80px;
             object-fit: cover;
             border-radius: 4px;
         }
+
+        .modal-header {
+            background-color: #212529;
+            color: white;
+        }
+
+        .img-preview {
+            display: block;
+            width: 100px;
+            height: 130px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
-<body class="bg-light">
+<body>
 
     <div class="container mt-5">
-        <h2 class="mb-4 text-center"> Lista e Librave</h2>
+        <h2 class="text-center mb-4">📚 Lista e Librave</h2>
 
         <div class="text-end mb-3">
-            <a href="add.html" class="btn btn-success"> Shto Libër</a>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" id="openAddModal">
+                 Shto Libër
+            </button>
         </div>
 
-        <table class="table table-bordered table-hover align-middle">
-            <thead class="table-dark text-center">
+        <table id="booksTable" class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
                 <tr>
                     <th>Foto</th>
                     <th>Titulli</th>
                     <th>Autori</th>
                     <th>Kategoria</th>
+                    <th>ISBN</th>
                     <th>Viti</th>
+                    <th>Gjendja</th>
                     <th>Veprime</th>
                 </tr>
             </thead>
-            <tbody id="bookList" class="text-center"></tbody>
+            <tbody id="bookList"></tbody>
         </table>
     </div>
 
-
-    <div class="modal fade" id="editModal" tabindex="-1">
+    <!-- Modal Shto Liber -->
+    <div class="modal fade" id="addModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title">Ndrysho Librin</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Shto Libër të Ri</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" id="editIndex">
+                <form id="addForm" novalidate>
+                    <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Titulli</label>
-                            <input type="text" id="editTitle" class="form-control" required>
+                            <input type="text" id="title" class="form-control" required minlength="2" maxlength="100">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Autori</label>
-                            <input type="text" id="editAuthor" class="form-control" required>
+                            <select id="author" class="form-select" required>
+                                <option value="">Zgjidh autorin</option>
+                                <option>Ismail Kadare</option>
+                                <option>Ernest Koliqi</option>
+                                <option>Dritëro Agolli</option>
+                                <option>Sabahudin Gabrani</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Kategoria</label>
-                            <input type="text" id="editCategory" class="form-control">
+                            <select id="category" class="form-select" required>
+                                <option value="">Zgjidh kategorinë</option>
+                                <option>Roman</option>
+                                <option>Histori</option>
+                                <option>Fantazi</option>
+                                <option>Shkencë</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">ISBN</label>
+                            <input type="text" id="isbn" class="form-control" pattern="[0-9\-]{10,17}" required
+                                placeholder="p.sh. 978-1234567890">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Viti</label>
-                            <input type="number" id="editYear" class="form-control" min="1500" max="2100">
+                            <input type="number" id="year" class="form-control" min="1500" max="2100" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Ndrysho Foto </label>
-                            <input type="file" id="editImage" accept="image/*" class="form-control">
+                            <label class="form-label">Gjendja</label>
+                            <select id="condition" class="form-select" required>
+                                <option value="">Zgjidh gjendjen</option>
+                                <option>I ri</option>
+                                <option>I përdorur</option>
+                            </select>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Ruaj Ndryshimet</button>
-                    </form>
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto</label>
+                            <input type="file" id="image" accept="image/*" class="form-control" required>
+                            <img id="addPreview" class="img-preview"
+                                src="https://via.placeholder.com/100x130?text=No+Image">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Shto Librin</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
+    <!-- Modal Edito Liber -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ndrysho Librin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editForm" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" id="editIndex">
+                        <div class="mb-3">
+                            <label class="form-label">Titulli</label>
+                            <input type="text" id="editTitle" class="form-control" required minlength="2"
+                                maxlength="100">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Autori</label>
+                            <select id="editAuthor" class="form-select" required>
+                                <option value="">Zgjidh autorin</option>
+                                <option>Ismail Kadare</option>
+                                <option>Ernest Koliqi</option>
+                                <option>Dritëro Agolli</option>
+                                <option>Sabahudin Gabrani</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategoria</label>
+                            <select id="editCategory" class="form-select" required>
+                                <option value="">Zgjidh kategorinë</option>
+                                <option>Roman</option>
+                                <option>Histori</option>
+                                <option>Fantazi</option>
+                                <option>Shkencë</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">ISBN</label>
+                            <input type="text" id="editIsbn" class="form-control" pattern="[0-9\-]{10,17}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Viti</label>
+                            <input type="number" id="editYear" class="form-control" min="1500" max="2100" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gjendja</label>
+                            <select id="editCondition" class="form-select" required>
+                                <option value="">Zgjidh gjendjen</option>
+                                <option>I ri</option>
+                                <option>I përdorur</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto</label>
+                            <input type="file" id="editImage" accept="image/*" class="form-control">
+                            <img id="editPreview" class="img-preview" src="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Ruaj Ndryshimet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap + JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+
     <script>
         const bookList = document.getElementById('bookList');
         let books = JSON.parse(localStorage.getItem('books')) || [];
 
+        const addPreview = document.getElementById('addPreview');
+        const editPreview = document.getElementById('editPreview');
+
+        // Reset form kur hap modalin e shtimit
+        document.getElementById('openAddModal').addEventListener('click', () => {
+            document.getElementById('addForm').reset();
+            addPreview.src = 'https://via.placeholder.com/100x130?text=No+Image';
+        });
+
+        // Shfaq parapamje imazhi
+        document.getElementById('image').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) addPreview.src = URL.createObjectURL(file);
+        });
+        document.getElementById('editImage').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) editPreview.src = URL.createObjectURL(file);
+        });
+
+        // Renderimi i librave
         function renderBooks() {
             bookList.innerHTML = '';
-            books.forEach((book, index) => {
+            books.forEach((b, i) => {
                 bookList.innerHTML += `
-          <tr>
-            <td><img src="${book.image || 'https://via.placeholder.com/60x80?text=No+Image'}" class="cover"></td>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.category}</td>
-            <td>${book.year}</td>
-            <td>
-              <button class="btn btn-sm btn-success" onclick="openEdit(${index})"> Edit </button>
-              <button class="btn btn-sm btn-success" onclick="deleteBook(${index})"> Delete </button>
-            </td>
-          </tr>
-        `;
+                <tr>
+                    <td><img src="${b.image}" class="cover"></td>
+                    <td>${b.title}</td>
+                    <td>${b.author}</td>
+                    <td>${b.category}</td>
+                    <td>${b.isbn}</td>
+                    <td>${b.year}</td>
+                    <td>${b.condition}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="openEdit(${i})">Edito</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteBook(${i})">Fshi</button>
+                    </td>
+                </tr>
+            `;
             });
             localStorage.setItem('books', JSON.stringify(books));
+            if (window.dataTable) window.dataTable.destroy();
+            window.dataTable = new simpleDatatables.DataTable("#booksTable");
         }
 
-        function deleteBook(index) {
-            if (confirm("A jeni i sigurt që doni ta fshini këtë libër?")) {
-                books.splice(index, 1);
-                renderBooks();
+        // Shto liber
+        document.getElementById('addForm').addEventListener('submit', e => {
+            e.preventDefault();
+            if (!e.target.checkValidity()) {
+                e.stopPropagation();
+                e.target.classList.add('was-validated');
+                return;
             }
-        }
 
-        function openEdit(index) {
-            const book = books[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('editTitle').value = book.title;
-            document.getElementById('editAuthor').value = book.author;
-            document.getElementById('editCategory').value = book.category;
-            document.getElementById('editYear').value = book.year;
-            document.getElementById('editImage').value = '';
+            const file = document.getElementById('image').files[0];
+            const reader = new FileReader();
+            reader.onload = ev => {
+                books.push({
+                    title: document.getElementById('title').value.trim(),
+                    author: document.getElementById('author').value,
+                    category: document.getElementById('category').value,
+                    isbn: document.getElementById('isbn').value.trim(),
+                    year: document.getElementById('year').value,
+                    condition: document.getElementById('condition').value,
+                    image: ev.target.result
+                });
+                localStorage.setItem('books', JSON.stringify(books));
+                renderBooks();
+                bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Edito liber
+        function openEdit(i) {
+            const b = books[i];
+            document.getElementById('editIndex').value = i;
+            document.getElementById('editTitle').value = b.title;
+            document.getElementById('editAuthor').value = b.author;
+            document.getElementById('editCategory').value = b.category;
+            document.getElementById('editIsbn').value = b.isbn;
+            document.getElementById('editYear').value = b.year;
+            document.getElementById('editCondition').value = b.condition;
+            editPreview.src = b.image;
             new bootstrap.Modal(document.getElementById('editModal')).show();
         }
 
         document.getElementById('editForm').addEventListener('submit', e => {
             e.preventDefault();
-            const index = document.getElementById('editIndex').value;
+            const i = document.getElementById('editIndex').value;
             const file = document.getElementById('editImage').files[0];
-
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    books[index].image = e.target.result;
-                    saveEdit(index);
+                reader.onload = ev => {
+                    books[i].image = ev.target.result;
+                    saveEdit(i);
                 };
                 reader.readAsDataURL(file);
-            } else {
-                saveEdit(index);
-            }
+            } else saveEdit(i);
         });
 
-        function saveEdit(index) {
-            books[index].title = document.getElementById('editTitle').value;
-            books[index].author = document.getElementById('editAuthor').value;
-            books[index].category = document.getElementById('editCategory').value;
-            books[index].year = document.getElementById('editYear').value;
+        function saveEdit(i) {
+            books[i].title = document.getElementById('editTitle').value.trim();
+            books[i].author = document.getElementById('editAuthor').value;
+            books[i].category = document.getElementById('editCategory').value;
+            books[i].isbn = document.getElementById('editIsbn').value.trim();
+            books[i].year = document.getElementById('editYear').value;
+            books[i].condition = document.getElementById('editCondition').value;
             localStorage.setItem('books', JSON.stringify(books));
             renderBooks();
             bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
         }
 
+        // Fshi liber
+        function deleteBook(i) {
+            if (confirm("A jeni i sigurt që doni ta fshini këtë libër?")) {
+                books.splice(i, 1);
+                renderBooks();
+            }
+        }
+
+        // Shfaq librat në load
         renderBooks();
     </script>
+
 </body>
 
 </html>
