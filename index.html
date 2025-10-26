@@ -13,11 +13,15 @@
     <!-- DataTables CSS -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <!-- Wave Background -->
+    <div class="wave-container">
+        <div class="wave"></div>
+    </div>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">📚 Lista e Librave</h2>
@@ -30,7 +34,7 @@
 
         <div class="table-container">
             <table id="booksTable" class="table table-bordered table-hover align-middle text-center">
-                <thead class="table-dark">
+                <thead>
                     <tr>
                         <th>Foto</th>
                         <th>Titulli</th>
@@ -63,13 +67,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-person me-2"></i>Autori</label>
-                            <select id="author" class="form-select" required>
-                                <option value="">Zgjidh autorin</option>
-                                <option>Ismail Kadare</option>
-                                <option>Ernest Koliqi</option>
-                                <option>Dritëro Agolli</option>
-                                <option>Sabahudin Gabrani</option>
-                            </select>
+                            <input type="text" id="author" class="form-control" required minlength="2" maxlength="100" placeholder="Shkruaj emrin e autorit">
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-tag me-2"></i>Kategoria</label>
@@ -104,6 +102,12 @@
                             <img id="addPreview" class="img-preview"
                                 src="https://via.placeholder.com/120x160?text=Nuk+ka+foto">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-image me-2"></i>Foto (opsionale)</label>
+                            <input type="file" id="image" accept="image/*" class="form-control">
+                            <img id="addPreview" class="img-preview"
+                                src="https://via.placeholder.com/120x160?text=Nuk+ka+foto">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary w-100">
@@ -133,13 +137,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-person me-2"></i>Autori</label>
-                            <select id="editAuthor" class="form-select" required>
-                                <option value="">Zgjidh autorin</option>
-                                <option>Ismail Kadare</option>
-                                <option>Ernest Koliqi</option>
-                                <option>Dritëro Agolli</option>
-                                <option>Sabahudin Gabrani</option>
-                            </select>
+                            <input type="text" id="editAuthor" class="form-control" required minlength="2" maxlength="100" placeholder="Shkruaj emrin e autorit">
                         </div>
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-tag me-2"></i>Kategoria</label>
@@ -168,7 +166,12 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label"><i class="bi bi-image me-2"></i>Foto (opsionale)</label>
+                            <label class="form-label"><i class="bi bi-image me-2"></i>Foto</label>
+                            <input type="file" id="editImage" accept="image/*" class="form-control">
+                            <img id="editPreview" class="img-preview" src="">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label"><i class="bi bi-image me-2"></i>Foto</label>
                             <input type="file" id="editImage" accept="image/*" class="form-control">
                             <img id="editPreview" class="img-preview" src="">
                         </div>
@@ -264,7 +267,7 @@
             reader.onload = ev => {
                 books.push({
                     title: document.getElementById('title').value.trim(),
-                    author: document.getElementById('author').value,
+                    author: document.getElementById('author').value.trim(),
                     category: document.getElementById('category').value,
                     isbn: document.getElementById('isbn').value.trim(),
                     year: document.getElementById('year').value,
@@ -309,7 +312,7 @@
 
         function saveEdit(i) {
             books[i].title = document.getElementById('editTitle').value.trim();
-            books[i].author = document.getElementById('editAuthor').value;
+            books[i].author = document.getElementById('editAuthor').value.trim();
             books[i].category = document.getElementById('editCategory').value;
             books[i].isbn = document.getElementById('editIsbn').value.trim();
             books[i].year = document.getElementById('editYear').value;
@@ -333,7 +336,7 @@
         function setupValidation() {
             const rules = [
                 { id: "title", msg: "Titulli duhet të ketë të paktën 2 karaktere." },
-                { id: "author", msg: "Zgjidh një autor nga lista." },
+                { id: "author", msg: "Autori duhet të ketë të paktën 2 karaktere." },
                 { id: "category", msg: "Zgjidh një kategori." },
                 { id: "isbn", msg: "Formati i gabuar! Duhet p.sh. 978-1234567890." },
                 { id: "year", msg: "Vendos një vit midis 1500 dhe 2100." },
@@ -362,7 +365,7 @@
 
             const editRules = [
                 { id: "editTitle", msg: "Titulli duhet të ketë të paktën 2 karaktere." },
-                { id: "editAuthor", msg: "Zgjidh një autor nga lista." },
+                { id: "editAuthor", msg: "Autori duhet të ketë të paktën 2 karaktere." },
                 { id: "editCategory", msg: "Zgjidh një kategori." },
                 { id: "editIsbn", msg: "Formati i gabuar! Duhet p.sh. 978-1234567890." },
                 { id: "editYear", msg: "Vendos një vit midis 1500 dhe 2100." },
