@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Commons - Community Discussions</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/disscusion.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div>
+                    <h1 class="site-title">Library Commons</h1>
+                    <p class="site-subtitle">Community Discussions</p>
+                </div>
+            </div>
+            <button class="btn-new-discussion" onclick="openModal()">
+                <i class="fas fa-plus"></i> New Discussion
+            </button>
+        </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+        <i class="fas fa-search text-muted"></i>
+        <input type="text" placeholder="Search discussions, topics, or members...">
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3>Categories</h3>
+                <a href="#" class="category-item active">
+                    <i class="fas fa-comments"></i>
+                    <span class="category-name">All Discussions</span>
+                    <span class="category-count">245</span>
+                </a>
+                <a href="#" class="category-item">
+                    <i class="fas fa-book-open"></i>
+                    <span class="category-name">Book Reviews</span>
+                    <span class="category-count">89</span>
+                </a>
+                <a href="#" class="category-item">
+                    <i class="far fa-calendar"></i>
+                    <span class="category-name">Library Events</span>
+                    <span class="category-count">34</span>
+                </a>
+                <a href="#" class="category-item">
+                    <i class="fas fa-users"></i>
+                    <span class="category-name">Reading Groups</span>
+                    <span class="category-count">56</span>
+                </a>
+                <a href="#" class="category-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="category-name">Recommendations</span>
+                    <span class="category-count">102</span>
+                </a>
+                <a href="#" class="category-item">
+                    <i class="far fa-bookmark"></i>
+                    <span class="category-name">My Bookmarks</span>
+                    <span class="category-count">12</span>
+                </a>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Community Guidelines</h3>
+                <ul class="guidelines-list">
+                    <li>Be respectful and courteous</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <div class="content-header">
+                <div>
+                    <h2>Recent Discussions</h2>
+                    <p class="content-subtitle">Join the conversation with fellow library members</p>
+                </div>
+                <button class="sort-btn">
+                    <i class="fas fa-sort"></i>
+                    Sort by
+                </button>
+            </div>
+
+            <!-- Discussion Cards -->
+            <div class="discussion-card">
+                <div class="discussion-header">
+                    <div style="flex: 1;">
+                        <h3 class="discussion-title">The Evolution of Digital Archives in Modern Libraries</h3>
+                        <div class="discussion-meta">
+                            <span><i class="far fa-user"></i> Sarah Mitchell</span>
+                            <span><i class="far fa-clock"></i> 2 hours ago</span>
+                        </div>
+                    </div>
+                    <span class="category-badge">Library Events</span>
+                </div>
+                <p class="discussion-content">
+                    I've been researching how libraries are adapting to digitization. What are your thoughts on balancing physical and digital collections? I believe there's immense value in both...
+                </p>
+                <div class="discussion-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> Digital Archives</span>
+                    <span class="tag"><i class="fas fa-tag"></i> Library Science</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="comment-count">
+                        <i class="far fa-comment"></i> 23
+                    </div>
+                    <div class="discussion-actions">
+                        <button class="btn-edit" onclick="openModal()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn-delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="discussion-card">
+                <div class="discussion-header">
+                    <div style="flex: 1;">
+                        <h3 class="discussion-title">Book Club Discussion: '1984' by George Orwell</h3>
+                        <div class="discussion-meta">
+                            <span><i class="far fa-user"></i> James Rodriguez</span>
+                            <span><i class="far fa-clock"></i> 5 hours ago</span>
+                        </div>
+                    </div>
+                    <span class="category-badge">Book Reviews</span>
+                </div>
+                <p class="discussion-content">
+                    Let's discuss the themes of surveillance and totalitarianism in Orwell's masterpiece. How relevant do you find these concepts in today's world? Chapter 3 really struck me...
+                </p>
+                <div class="discussion-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> Classic Literature</span>
+                    <span class="tag"><i class="fas fa-tag"></i> Book Club</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="comment-count">
+                        <i class="far fa-comment"></i> 47
+                    </div>
+                    <div class="discussion-actions">
+                        <button class="btn-edit" onclick="openModal()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn-delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for New/Edit Discussion -->
+    <div id="discussionModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>New Discussion</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">Discussion Title *</label>
+                        <input type="text" class="form-control" placeholder="Enter a descriptive title for your discussion">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select class="form-select">
+                            <option value="">Select a category</option>
+                            <option value="book-reviews">Book Reviews</option>
+                            <option value="library-events">Library Events</option>
+                            <option value="reading-groups">Reading Groups</option>
+                            <option value="recommendations">Recommendations</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea class="form-control" placeholder="Share your thoughts, questions, or ideas with the community..."></textarea>
+                        <p class="form-hint">Be clear and descriptive to get the best responses</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <div class="tag-input-container">
+                            <span class="tag-item">
+                                Digital Archives
+                                <button type="button" class="tag-remove">&times;</button>
+                            </span>
+                            <span class="tag-item">
+                                Library Science
+                                <button type="button" class="tag-remove">&times;</button>
+                            </span>
+                            <input type="text" class="tag-input" placeholder="Add tags...">
+                        </div>
+                        <p class="form-hint">Press Enter to add tags (max 5)</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Visibility</label>
+                        <select class="form-select">
+                            <option value="public">Public - Everyone can see this discussion</option>
+                            <option value="members">Members Only - Only library members can see</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn-modal btn-submit">Post Discussion</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('discussionModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('discussionModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('discussionModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
