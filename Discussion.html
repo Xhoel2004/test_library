@@ -119,7 +119,7 @@
                         <button class="btn-edit" onclick="openModal()">
                             <i class="fas fa-edit"></i> Edit
                         </button>
-                        <button class="btn-delete">
+                        <button class="btn-delete" onclick="openDeleteModal()">
                             <i class="fas fa-trash"></i> Delete
                         </button>
                     </div>
@@ -152,7 +152,7 @@
                         <button class="btn-edit" onclick="openModal()">
                             <i class="fas fa-edit"></i> Edit
                         </button>
-                        <button class="btn-delete">
+                        <button class="btn-delete" onclick="openDeleteModal()">
                             <i class="fas fa-trash"></i> Delete
                         </button>
                     </div>
@@ -215,6 +215,36 @@
                             <option value="members">Members Only - Only library members can see</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" placeholder="Any additional information..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Author Name</label>
+                        <input type="text" class="form-control" placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" placeholder="Your location">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Tags</label>
+                        <input type="text" class="form-control" placeholder="More tags...">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">References</label>
+                        <textarea class="form-control" placeholder="Add any references or links..."></textarea>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -224,24 +254,59 @@
         </div>
     </div>
 
-    <script>
-        function openModal() {
-            document.getElementById('discussionModal').classList.add('show');
-        }
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-dialog-small">
+            <div class="modal-header">
+                <h3>Delete Discussion</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="delete-modal-body">
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Are you sure?</h3>
+                <p>Do you really want to delete this discussion? This action cannot be undone and all comments will be permanently removed.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn-modal btn-delete-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
 
-        function closeModal() {
-            document.getElementById('discussionModal').classList.remove('show');
-        }
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const discussionModal = document.getElementById('discussionModal');
+        const deleteModal = document.getElementById('deleteModal');
+        
+        
+        window.openModal = function() {
+            discussionModal.classList.add('show');
+            document.body.classList.add('modal-open');
+        };
+        
+        
+        window.closeModal = function() {
+            discussionModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        };
+        
+        
+        window.openDeleteModal = function() {
+            deleteModal.classList.add('show');
+            document.body.classList.add('modal-open');
+        };
+        
+        
+        window.closeDeleteModal = function() {
+            deleteModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        };
+    });
+</script>
 
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('discussionModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
